@@ -10,6 +10,33 @@ Even worse is when you're already talking to someone and they just cut in as if 
 
 Well here it is.
 
+## Setting up, playing around and testing
+
+## Micropython
+
+The Pico should be flashed with MicroPython (perfect for a good cobbling), you can find it here:
+
+ - Pico https://micropython.org/download/rp2-pico/
+ - Pico W https://micropython.org/download/rp2-pico-w/
+
+Download the latest .uf2 for either a Pico or a Pico-W (if it has wifi it's a Pico-W), hold the button down on the Pico, then plug in the USB. Copy and Paste the .uf2 file you downloaded to the new usb drive that just appeared and when it's finished copying over the Pico will reboot into MicroPython mode, simple as that.
+
+### Thonny
+
+There's more than enough tutorials out there for this, but short story, install the latest version of Thonny you can lay hands on, run it, in `Run`->`Configure Interpreter` menu item go to the `Interpreter` tab, set the top dropdown to `MicroPython (Raspberry Pi Pico)`.
+
+To upload a file from this repo to a Pico, open it in Thonny then select the menu item `File`->`Save Copy`, pick `Raspberry Pi Pico` then save it as the same name.
+To run a Python file on the Pico, open it (either locally from a file or from teh Pico itself) simply have it as the active open file and press Run (or F5).
+To edit a file open it from the Pico, make the changes and save it again, it will automatically save to the Pico. 
+
+### VSCode
+
+For this I think the `Pico_W_Go` extension might be perfect: https://marketplace.visualstudio.com/items?itemName=paulober.pico-w-go 
+... however, I have a SteamDeck which is being a little nightmare at the moment, I can't get access to the Serial port that a Pico raises, however this solution does have `Pico_W_Go` VSCode settings embedded into it, so your mileage may vary, it might work for you, it might not.
+...and before someone chips in with 'you *did* run the `scripts/permissiosnSolver.sh` didn't you?' yes, yes I did, but it doesn't persist.
+
+Until I get that sorted I strongly suggest using Thonny as described above.
+
 ## List of Materials
 
 Not a 'Bill of Materials' because this is just cobbled together, find the cheapest versions.
@@ -19,13 +46,6 @@ Not a 'Bill of Materials' because this is just cobbled together, find the cheape
  - Button (we used a LED backlit transparent one, because it was pretty)
  - Serial/TTY Thermal Printer (we got the cheapest we could find that had a serial connection)
  - 3 X generic tactile switches 
-
-## Programming
-
-The Pico should be flashed with MicroPython (perfect for a good cobbling), you can find it here:
-
- - Pico https://micropython.org/download/rp2-pico/
- - Pico W https://micropython.org/download/rp2-pico-w/
 
 ### E-Paper finaglery
 
@@ -57,6 +77,14 @@ The following table was taken from : https://www.waveshare.com/wiki/Pico-ePaper-
 | CS | GP9 | Chip select pin of SPI interface, Low Active |
 | DC | GP8 | Data/Command control pin (High: Data; Low: Command) |
 | RST | GP12 | Reset pin, low active  |
+
+<img src="https://www.raspberrypi.com/documentation/microcontrollers/images/pico-pinout.svg" />
+
+*Raspberry Pico Pinout sheet from raspberrypi.com*
+
+<img src="https://www.waveshare.com/img/devkit/LCD/Pico-ePaper-2.13/Pico-ePaper-2.13-details-inter.jpg" />
+
+*This waveshare model is not the 2.13 PHat version I used, but the pinout is identical*
 
   So we now have a E-Paper display that can display some text in a font and size we specify. That's one half of the heavy lifting and leaves us with:
 
