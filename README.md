@@ -86,8 +86,8 @@ The following table was taken from : https://www.waveshare.com/wiki/Pico-ePaper-
 
 *This waveshare model is not the 2.13 PHat version I used, but the pinout is identical*
 
-  So we now have a E-Paper display that can display some text in a font and size we specify. That's one half of the heavy lifting and leaves us with:
+So we now have a E-Paper display that can display some text in a font and size we specify. That's one half of the heavy lifting and leaves us with:
 
-   - LED backed button: lets have a pretty `breathe` animation when the unit is printing a ticket, otherwise the LED is turned off, LED Pin will be GPIO 16
-   - 3 tac buttons, button 1 resets the ticket number to 000, therefore when the button is next pressed it prints 001, button 2 decreases the number, button 3 increases the number
-   - Serial Thermal Printer - TBD (still on the long boat from AliExpress)
+- LED backed button: lets have a pretty `breathe` animation when the unit is printing a ticket, otherwise the LED is turned off, LED Pin will be GPIO 16
+- 3 tac buttons, button 1 resets the ticket number to 000, therefore when the button is next pressed it prints 001, button 2 decreases the number, button 3 increases the number
+- Serial Thermal Printer - TBD (still on the long boat from AliExpress)
