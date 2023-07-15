@@ -87,3 +87,8 @@ So we now have a E-Paper display that can display some text in a font and size w
 - LED backed button: lets have a pretty `breathe` animation when the unit is printing a ticket, otherwise the LED is turned off, LED Pin will be GPIO 16
 - 3 tac buttons, button 1 resets the ticket number to 000, therefore when the button is next pressed it prints 001, button 2 decreases the number, button 3 increases the number
 - Serial Thermal Printer - TBD (still on the long boat from AliExpress)
+
+### Putting it all together
+
+<img src="fritzing_sketch_bb.png" />
+Wiring Diagram for the components
