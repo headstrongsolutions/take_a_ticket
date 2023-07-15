@@ -77,6 +77,7 @@ The following table was taken from : https://www.waveshare.com/wiki/Pico-ePaper-
 | CS | GP9 | Chip select pin of SPI interface, Low Active |
 | DC | GP8 | Data/Command control pin (High: Data; Low: Command) |
 | RST | GP12 | Reset pin, low active  |
+| BUSY | GP13 | Busy pin, low active  |
 
 <img src="https://www.raspberrypi.com/documentation/microcontrollers/images/pico-pinout.svg" />
 
