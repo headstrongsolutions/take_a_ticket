@@ -50,7 +50,7 @@ Not a 'Bill of Materials' because this is just cobbled together, find the cheape
 ### E-Paper finaglery
 
 Just basic text is fine on a E-Paper if you're happy with the font being 8 pixels high, but we are not. The current ticket number must be as readable as possible, so we need to use some extra cleverness to use 'fonts'. The fonts can be created using PeterHinh's very excellent `font_to_py` python application: https://github.com/peterhinch/micropython-font-to-py
-The documentation there is remarkably good, but short version would be I got the Days font from dafont: https://www.dafont.com/days.font and then I used `font_to_py` against it to create two sizes of the font at 10 pixels and 75 pixels height using the following in cli:
+The documentation there is remarkably good but for a sum-up, I got the Days font from dafont: https://www.dafont.com/days.font and then I used `font_to_py` against it to create two sizes of the font at 10 pixels and 75 pixels height using the following in cli:
  - python font_to_py.py -x days.ttf 75 days_font_83.py -c 1234567890 days_font_83.py
  - python font_to_py.py -x days.ttf 10 days_font_10.py
 
@@ -62,6 +62,17 @@ The documentation there is remarkably good, but short version would be I got the
 
   Then to actually use them we can use the main Waveshare library to setup the E-Paper module itself, then halfway through the process create a sub-frame buffer that can then be mixed with Peter Hinch's other very excellent library `writer`. 
   This library is best thought of as a middleware for a framebuffer, it enables you to do additional things to it that you don't get out of the box. This is preffered here as it means we don't need to break out the big guns on an expensive canvassing framework like `Pillow` etc.. and no that's not a slight, I love using `Pillow`, it's very natural but literally the only thing that `frameBuffer` doesn't give us is pixel fonts.
+
+### Serial Printer
+
+The printer I managed to find appears to be this one: [Adafruit Mini Thermal Printer](https://www.adafruit.com/product/597).
+
+This is excellent as Adafruit usually has great 'getting started' examples for wiring, code examples and walkthrough's. 
+Adafruit does mostly prefer to push their own CircuitPython solutions rather than the MicroPython that we are interested in, however being as they are both based on Python (obvs..) if the default libraries are not compatible with MicroPython and there doesn't seem to be examples available for MicroPython we can dive into the detail on how they solved problems from their CircuitPython libraries to make up a solution for us, lokos good with an early look as I found a port to the Adafruit CircuitPython library to MicroPython [here](https://github.com/ayoy/micropython-thermal-printer).
+
+Serial Thermal Printers tend to support printing a handfull of built in fonts but also bitmaps sent to them. We are interested in the fonts if they are usable (50/50 in my experience), but we absolutely need bitmap as it's through this we'll take our font ([`assets/days.ttf`](https://www.dafont.com/days.font), render the current ticket into a image object at the correct font size, along with any messaging, and then pass that image directly to the printer. Took a bit of digging but the max pixel width on this printer appears to be [`384 pixels`](https://www.marutsu.co.jp/contents/shop/marutsu/ds/mini-thermal-receipt-printer.pdf). I'll know more when they arrive.
+
+
 
 #### Pins
 
@@ -93,3 +104,71 @@ So we now have a E-Paper display that can display some text in a font and size w
 
 <img src="fritzing_sketch_bb.png" />
 Wiring Diagram for the components
+
+
+### Application flows
+
+#### State Diagram 
+
+**Overview**
+
+```mermaid
+stateDiagram-v2
+    [*] --> SetCurrentTicketToZero
+    SetCurrentTicketToZero --> PrintCurrentTicket
+    PrintCurrentTicket --> NewTicketRequested
+    NewTicketRequested --> BreatheButton
+    BreatheButton --> IncreaseCurrentTicket
+    IncreaseCurrentTicket --> PrintCurrentTicket
+    PrintCurrentTicket --> [*]
+    
+```
+
+---
+#### Functions
+
+**`SetCurrentTicketToZero` Function**
+
+ - when the application is started the `current_ticket_number` should be set to `0`
+
+---
+
+**`PrintCurrentTicket` Function**
+ - `breathe` the LED on the Arcade LED Button
+ - a ticket bitmap is sent to the Serial Printer displayed using the below example template (888 being replaced with the current ticket number, which ranges from 000 to 999)
+ - update the e-Paper screen to display the current_ticket_number to look like the below example template
+
+ - stop the `breathe` LED on the Arcade LED Button cycle and disable the LED
+
+<img src="ticket_example.png" style="width:384px" />
+
+*printed ticket example: char "8" is usually the widest number in a font, printer max pixel width is 384 pixels, so this image canvas is 384X256*
+
+<img src="e-paper_example.png" style="width:250px" />
+
+*e-paper screen example*
+
+
+```mermaid
+classDiagram
+  class Adafruit_Thermal{
+      + pins
+      + heatdots
+      + heattime
+      + heatinterval
+      + printBitmap(width, height, data, LaaT)
+      + println(str)
+      + printBitmapFromFile(width, height, bitmapFilePath)
+      + printBMPImage(bitmapFilePath)
+  }
+```
+
+*Class diagram for the Adafruit_Thermal library*
+
+---
+
+**`ButtonPressed` Function**
+
+ - If the Arcade LED Button is pressed, add to the `current_ticket_number` variable (if this is at max_value, i.e. set the `current_ticket_number` to `0`).
+ - run `PrintCurrentTicket` Function
+
