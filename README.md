@@ -115,30 +115,65 @@ Wiring Diagram for the components
 ```mermaid
 stateDiagram-v2
     [*] --> SetCurrentTicketToZero
-    SetCurrentTicketToZero --> PrintCurrentTicket
-    PrintCurrentTicket --> NewTicketRequested
-    NewTicketRequested --> BreatheButton
-    BreatheButton --> IncreaseCurrentTicket
-    IncreaseCurrentTicket --> PrintCurrentTicket
-    PrintCurrentTicket --> [*]
+    UpdateDisplay --> SetCurrentTicketToZero 
+    SetCurrentTicketToZero --> UpdateDisplay
+    UpdateDisplay --> IncreaseCurrentTicketNumber
+    IncreaseCurrentTicketNumber --> UpdateDisplay
+    UpdateDisplay --> DecreaseCurrentTicketNumber
+    DecreaseCurrentTicketNumber --> UpdateDisplay
+    UpdateDisplay --> ResetCurrentTicketNumber
+    ResetCurrentTicketNumber --> UpdateDisplay
+    UpdateDisplay --> ArcadeButtonPressed
+    ArcadeButtonPressed --> UpdateDisplay
+    UpdateDisplay --> [*]
     
+```
+```mermaid
+stateDiagram-v2
+    [ArcadeButtonPressed] --> BreatheButton(True)
+    BreatheButton(True) --> IncreaseCurrentTicketNumber
+    IncreaseCurrentTicketNumber --> PrintCurrentTicket
+    PrintCurrentTicket --> [*]
 ```
 
 ---
 #### Functions
 
 **`SetCurrentTicketToZero` Function**
+ - when the application is started the `current_ticket_number` should be set to the `minimum_ticket_number_value` (000)
 
- - when the application is started the `current_ticket_number` should be set to `000`
+**`UpdateDisplay` function**
+ - update the e-Paper screen to display the current_ticket_number to look like the below e-paper screen example template
+ - BreatheButton(False)
+
+**`IncreaseCurrentTicketNumber` Function**
+ - adds `1` to the current_ticket_number variable, if current_ticket_number is equal to the `maximum_ticket_number_value` (999), set the current_ticket_number to the `minimum_ticket_number_value` (000)
+
+**`DecreaseCurrentTicketNumber` Function**
+ - decrements `1` from the current_ticket_number variable, if current_ticket_number is equal to the `minimum_ticket_number_value` (000), set the current_ticket_number to the `maximum_ticket_number_value` (999)
+
+**`ResetCurrentTicketNumber` Function**
+ - sets the current_ticket_number variable to the `minimum_ticket_number_value` (000)
+
+**`ArcadeButtonPressed` Function**
+ - run `BreatheButton(True)` Function
+ - run `IncreaseCurrentTicketNumber`Function
+ - run `PrintCurrentTicket` Function
+ - run `BreatheButton(False)` Function
+
+**`BreatheButton` Function (args[Enabled=True (default value)])**
+- If Enabled:
+  - slowly ramp brightness of LED up to maximum
+  - slowly ramp brightness of LED down to minimum
+- if Disabled:
+  - set LED value to Off
+
+**`PrintCurrentTicket` Function**
+ - a ticket bitmap is sent to the Serial Printer displayed using the below printed ticket example (888 being replaced with the current ticket number, which ranges from 000 to 999)
 
 ---
 
-**`PrintCurrentTicket` Function**
- - `breathe` the LED on the Arcade LED Button
- - a ticket bitmap is sent to the Serial Printer displayed using the below example template (888 being replaced with the current ticket number, which ranges from 000 to 999)
- - update the e-Paper screen to display the current_ticket_number to look like the below example template
-
- - stop the `breathe` LED on the Arcade LED Button cycle and disable the LED
+## Templates, Diagrams and other tat
 
 <img src="ticket_example.png" style="width:384px" />
 
@@ -167,8 +202,12 @@ classDiagram
 
 ---
 
-**`ButtonPressed` Function**
 
- - If the Arcade LED Button is pressed, add to the `current_ticket_number` variable (if this is at max_value, i.e. set the `current_ticket_number` to `000`).
- - run `PrintCurrentTicket` Function
 
+
+UpdateDisplay
+
+
+PrintCurrentTicket
+NewTicketRequested
+BreatheButton
