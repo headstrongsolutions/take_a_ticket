@@ -129,7 +129,7 @@ stateDiagram-v2
 
 **`SetCurrentTicketToZero` Function**
 
- - when the application is started the `current_ticket_number` should be set to `0`
+ - when the application is started the `current_ticket_number` should be set to `000`
 
 ---
 
