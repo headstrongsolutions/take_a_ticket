@@ -169,6 +169,6 @@ classDiagram
 
 **`ButtonPressed` Function**
 
- - If the Arcade LED Button is pressed, add to the `current_ticket_number` variable (if this is at max_value, i.e. set the `current_ticket_number` to `0`).
+ - If the Arcade LED Button is pressed, add to the `current_ticket_number` variable (if this is at max_value, i.e. set the `current_ticket_number` to `000`).
  - run `PrintCurrentTicket` Function
 
