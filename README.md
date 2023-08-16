@@ -5,7 +5,8 @@
 **Current Refactor from Python to Arduino Checklist**
 
  - [X] Printing example (with bitmap)
- - [ ] E-Paper example (based on this:)
+ - [X] Convert Days font with truetype2gfx
+ - [ ] E-Paper example (based on [this](https://www.waveshare.com/wiki/2.13inch_e-Paper_HAT_Manual#Working_With_Arduino))
  - [ ] Buttons
  - [ ] LED Breathe  
 
