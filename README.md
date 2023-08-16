@@ -2,6 +2,13 @@
 
 <img src="header.png" />
 
+**Current Refactor from Python to Arduino Checklist**
+
+ - [X] Printing example (with bitmap)
+ - [ ] E-Paper example (based on this:)
+ - [ ] Buttons
+ - [ ] LED Breathe  
+
 ## Overview
 
 So, you know those times when someone turns up at your desk and either just hovers there till you're ready, or breaks your flow when you're in teh middle of something?
