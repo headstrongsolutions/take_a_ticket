@@ -37,7 +37,7 @@ If you want to test it's working properly, go into File->Examples and grab `blin
 
 ### Adafruit Thermal Library installation and tweaks
  1. In Arduino 2 IDE open Sketch->Include Library->Manage Libraries and in the Library Manager type `adafruit thermal printer library` and install the `1.4.1` version
- 2. In Windows Explorer navigate to your users Documents/Arduino/libraries/Adafruit_Thermal_Printer_Library and replace the `Adafruit_Thermal.cpp` and `Adafruit_Thermal.h` files in there with the ones in this repositories `Adafruit_Thermal_Printer_Library` folder
+ 2. In Windows Explorer navigate to your users Documents/Arduino/libraries/Adafruit_Thermal_Printer_Library and replace the `Adafruit_Thermal.cpp` and `Adafruit_Thermal.h` files in there with the ones in this repositories `assets/Adafruit_Thermal_Printer_Library` folder
 These tweaks add a new class method called `printBitmap2` and extends the existing `writeBytes` method to a new version that covers all the additional parameters required by this specific printers firmware, I've kept the persons name who sorted this out so big thanks out to someone called Riva, you rock.
 
 ### VSCode
