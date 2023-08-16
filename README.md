@@ -27,6 +27,11 @@ The original solution was going to use MicroPython but the Adafruit Thermal Prin
 
 If you want to test it's working properly, go into File->Examples and grab `blink`, verify and upload it to the board. Does the LED turn off and on every second? Everything worked! It didn't? oh that's a shame, best you go google that.
 
+### Adafruit Thermal Library installation and tweaks
+ 1. In Arduino 2 IDE open Sketch->Include Library->Manage Libraries and in the Library Manager type `adafruit thermal printer library` and install the `1.4.1` version
+ 2. In Windows Explorer navigate to your users Documents/Arduino/libraries/Adafruit_Thermal_Printer_Library and replace the `Adafruit_Thermal.cpp` and `Adafruit_Thermal.h` files in there with the ones in this repositories `Adafruit_Thermal_Printer_Library` folder
+These tweaks add a new class method called `printBitmap2` and extends the existing `writeBytes` method to a new version that covers all the additional parameters required by this specific printers firmware, I've kept the persons name who sorted this out so big thanks out to someone called Riva, you rock.
+
 ### VSCode
 There is a extension called `platform.io` that you can add to VSCode to use instead of the Arduino IDE. It's way outside the scope of this, if you want to, go google how to set it up. Aside of the different IDE it doesn't change anything with the code or capabilities of the Pico, so again, your choice.
 
