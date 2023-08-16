@@ -12,30 +12,23 @@ Well here it is.
 
 ## Setting up, playing around and testing
 
-## Micropython
+## Arduino / Platform.io
+### Arduino? awwww why not Python?
+The original solution was going to use MicroPython but the Adafruit Thermal Printer libraries don't support printing bitmap images and this is an excercise in fun rather than programming to fix it, so next best option is Arduino. 
 
-The Pico should be flashed with MicroPython (perfect for a good cobbling), you can find it here:
 
- - Pico https://micropython.org/download/rp2-pico/
- - Pico W https://micropython.org/download/rp2-pico-w/
+### Setting up the Arduino 2 IDE
+ 1. Plug the Pico into USB
+ 2. Download it from here and install it: [download](https://www.arduino.cc/en/software)
+ 3. Add the Pico board to the Board Library: File->Preferences->Additional boards manager URLS: `https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json`
+ 4. Add the Pico board: Tools->Board->Board Manager, Search `pico` and select `Raspberry Pi Pico/RP2040` and install it
+ 5. Select the Serial Port the Pico is connected to 
+...and you are done
 
-Download the latest .uf2 for either a Pico or a Pico-W (if it has wifi it's a Pico-W), hold the button down on the Pico, then plug in the USB. Copy and Paste the .uf2 file you downloaded to the new usb drive that just appeared and when it's finished copying over the Pico will reboot into MicroPython mode, simple as that.
-
-### Thonny
-
-There's more than enough tutorials out there for this, but short story, install the latest version of Thonny you can lay hands on, run it, in `Run`->`Configure Interpreter` menu item go to the `Interpreter` tab, set the top dropdown to `MicroPython (Raspberry Pi Pico)`.
-
-To upload a file from this repo to a Pico, open it in Thonny then select the menu item `File`->`Save Copy`, pick `Raspberry Pi Pico` then save it as the same name.
-To run a Python file on the Pico, open it (either locally from a file or from teh Pico itself) simply have it as the active open file and press Run (or F5).
-To edit a file open it from the Pico, make the changes and save it again, it will automatically save to the Pico. 
+If you want to test it's working properly, go into File->Examples and grab `blink`, verify and upload it to the board. Does the LED turn off and on every second? Everything worked! It didn't? oh that's a shame, best you go google that.
 
 ### VSCode
-
-For this I think the `Pico_W_Go` extension might be perfect: https://marketplace.visualstudio.com/items?itemName=paulober.pico-w-go 
-... however, I have a SteamDeck which is being a little nightmare at the moment, I can't get access to the Serial port that a Pico raises, however this solution does have `Pico_W_Go` VSCode settings embedded into it, so your mileage may vary, it might work for you, it might not.
-...and before someone chips in with 'you *did* run the `scripts/permissiosnSolver.sh` didn't you?' yes, yes I did, but it doesn't persist.
-
-Until I get that sorted I strongly suggest using Thonny as described above.
+There is a extension called `platform.io` that you can add to VSCode to use instead of the Arduino IDE. It's way outside the scope of this, if you want to, go google how to set it up. Aside of the different IDE it doesn't change anything with the code or capabilities of the Pico, so again, your choice.
 
 ## List of Materials
 
@@ -49,30 +42,24 @@ Not a 'Bill of Materials' because this is just cobbled together, find the cheape
 
 ### E-Paper finaglery
 
-Just basic text is fine on a E-Paper if you're happy with the font being 8 pixels high, but we are not. The current ticket number must be as readable as possible, so we need to use some extra cleverness to use 'fonts'. The fonts can be created using PeterHinh's very excellent `font_to_py` python application: https://github.com/peterhinch/micropython-font-to-py
-The documentation there is remarkably good but for a sum-up, I got the Days font from dafont: https://www.dafont.com/days.font and then I used `font_to_py` against it to create two sizes of the font at 10 pixels and 75 pixels height using the following in cli:
- - python font_to_py.py -x days.ttf 75 days_font_83.py -c 1234567890 days_font_83.py
- - python font_to_py.py -x days.ttf 10 days_font_10.py
+Just basic text is fine on a E-Paper if you're happy with the font being 8 pixels high, but we are not. The current ticket number must be as readable as possible, so we need to use some extra cleverness to use 'fonts'. The fonts can be created from TTF fonts using the [truetype2gfx](https://rop.nl/truetype2gfx/), there is a Adafruit article on it here: [Adafruit truetype2gfx](https://blog.adafruit.com/2021/11/04/truetype2gfx-converting-fonts-from-truetype-to-the-adafruit-gfx-library-for-arduino/).
+I got the Days font from dafont: https://www.dafont.com/days.font and then I used `truetype2gfx` against it to create two sizes of the font at 10 pixels and 75 pixels height.
 
- Explanation of the `font_to_py` switches:
-  - -x renders the font horizontally
-  - -c 1234567890 causes only the numbers 0-9 to be rendered, these are the only characters I need so best to save file space
+So, when we have the gfx fonts these can be uploaded to the board and imported in as libraries in the normal fashion.
 
-  So, when we have the python fonts these can be uploaded to the board and imported in as libraries in the normal fashion.
-
-  Then to actually use them we can use the main Waveshare library to setup the E-Paper module itself, then halfway through the process create a sub-frame buffer that can then be mixed with Peter Hinch's other very excellent library `writer`. 
-  This library is best thought of as a middleware for a framebuffer, it enables you to do additional things to it that you don't get out of the box. This is preffered here as it means we don't need to break out the big guns on an expensive canvassing framework like `Pillow` etc.. and no that's not a slight, I love using `Pillow`, it's very natural but literally the only thing that `frameBuffer` doesn't give us is pixel fonts.
+Then to actually use them we can use the main Waveshare library to setup the E-Paper module itself, then when we write to the E-Paper we tell it what to write and which gfx font to use. 
 
 ### Serial Printer
 
-The printer I managed to find appears to be this one: [Adafruit Mini Thermal Printer](https://www.adafruit.com/product/597).
+The printer I managed to find is the RS232 variant of one of these: [Adafruit Mini Thermal Printer](https://www.adafruit.com/product/597).
 
 This is excellent as Adafruit usually has great 'getting started' examples for wiring, code examples and walkthrough's. 
 Adafruit does mostly prefer to push their own CircuitPython solutions rather than the MicroPython that we are interested in, however being as they are both based on Python (obvs..) if the default libraries are not compatible with MicroPython and there doesn't seem to be examples available for MicroPython we can dive into the detail on how they solved problems from their CircuitPython libraries to make up a solution for us, lokos good with an early look as I found a port to the Adafruit CircuitPython library to MicroPython [here](https://github.com/ayoy/micropython-thermal-printer).
 
 Serial Thermal Printers tend to support printing a handfull of built in fonts but also bitmaps sent to them. We are interested in the fonts if they are usable (50/50 in my experience), but we absolutely need bitmap as it's through this we'll take our font ([`assets/days.ttf`](https://www.dafont.com/days.font), render the current ticket into a image object at the correct font size, along with any messaging, and then pass that image directly to the printer. Took a bit of digging but the max pixel width on this printer appears to be [`384 pixels`](https://www.marutsu.co.jp/contents/shop/marutsu/ds/mini-thermal-receipt-printer.pdf). I'll know more when they arrive.
 
-
+Now, remember when I said it was a RS232 variant of a Mini Thermal Printer?
+That complicates things massively for me, as the RS232 protocol does essentially talk using Serial/TTY commands, but the voltage is variant (not fixed to either 3.3 or 5 volts) and near as I can understand it the signal is inverted. Luckily there is a MAX3232 chip that is specifically designed to convert between RS232 and TTL, so with one of these on a tidy breakout board between the printers data cable and the picos tty pins and it works as expected. 
 
 #### Pins
 
@@ -102,7 +89,7 @@ So we now have a E-Paper display that can display some text in a font and size w
 
 ### Putting it all together
 
-<img src="fritzing_sketch_bb.png" />
+<img src="Fritzing_sketch_bb.png" />
 Wiring Diagram for the components
 
 
