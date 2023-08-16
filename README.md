@@ -102,7 +102,7 @@ So we now have a E-Paper display that can display some text in a font and size w
 
 ### Putting it all together
 
-<img src="Fritzing_sketch_bb.png" />
+<img src="fritzing_sketch_bb.png" />
 Wiring Diagram for the components
 
 
