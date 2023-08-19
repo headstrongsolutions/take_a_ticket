@@ -31,11 +31,25 @@ To edit a file open it from the Pico, make the changes and save it again, it wil
 
 ### VSCode
 
-For this I think the `Pico_W_Go` extension might be perfect: https://marketplace.visualstudio.com/items?itemName=paulober.pico-w-go 
-... however, I have a SteamDeck which is being a little nightmare at the moment, I can't get access to the Serial port that a Pico raises, however this solution does have `Pico_W_Go` VSCode settings embedded into it, so your mileage may vary, it might work for you, it might not.
-...and before someone chips in with 'you *did* run the `scripts/permissiosnSolver.sh` didn't you?' yes, yes I did, but it doesn't persist.
+For this I think the `Pico_W_Go` extension is perfect: https://marketplace.visualstudio.com/items?itemName=paulober.pico-w-go 
+This repo is already set up for it (works on my machine) so if you want to try it, load it up into VSCode and see if it works!
 
-Until I get that sorted I strongly suggest using Thonny as described above.
+### Putting the code on the board
+In Thonny go to View -> Files, open the `src` on local and uplaod all the files in there to the Pico
+
+In VSCode, in the file Explorer there will also be a PICO Remote Workspace, which is the filetable on the Pico, copy the files in the `src` directory to the Remote Workspace..
+
+It's that easy.
+
+### Testing the code
+
+Load the file in Thonny or VSCode and run it:
+ - Thonny - press the green run button in the top toolbar, or press F5
+ - VSCode - press the run button in the bottom toolbar
+
+ Seriously, I *told* you it was easy... 
+ Debugging is trickier, I'll be honest, but managing files and testing? There's no flashing or anything, you just *run it*. 
+
 
 ## List of Materials
 
