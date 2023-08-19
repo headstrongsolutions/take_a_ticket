@@ -7,6 +7,8 @@ from writer import Writer
 import days_font_10
 import days_font_83
 
+import test_printer
+
 class NotionalDisplay(framebuf.FrameBuffer):
     def __init__(self, width, height, buffer):
         self.width = width
@@ -34,7 +36,7 @@ wri_11 = Writer(my_display, days_font_10)
 Writer.set_textpos(my_display, 9, 50)
 wri_11.printstring('         Currently Serving:', True)
 Writer.set_textpos(my_display, 22, 7)
-wri_75.printstring('888', True)
+wri_75.printstring('777', True)
 Writer.set_textpos(my_display, 102, 20)
 wri_11.printstring('      Press button for a new ticket', True)
 

@@ -22,3 +22,4 @@ if __name__ == '__main__':
         elif led_value <= min_value:
             led_value = min_value
             led_speed = original_led_speed
+

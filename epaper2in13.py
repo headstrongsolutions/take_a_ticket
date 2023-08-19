@@ -692,3 +692,4 @@ if __name__=='__main__':
     epd.Clear()
     epd.delay_ms(2000)
     epd.sleep()
+

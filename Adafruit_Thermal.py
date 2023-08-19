@@ -773,3 +773,4 @@ class Adafruit_Thermal:
             self.write(str(arg))
         self.write('\n')
 
+

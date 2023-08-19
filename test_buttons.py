@@ -23,3 +23,4 @@ while True:
     if button_3.value():
         print("button_3 pressed")
         time.sleep(0.5)
+
