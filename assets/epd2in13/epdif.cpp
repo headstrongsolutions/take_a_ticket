@@ -1,6 +1,6 @@
 /**
- *  @filename   :   epdif.h
- *  @brief      :   Header file of epdif.cpp providing EPD interface functions
+ *  @filename   :   epdif.cpp
+ *  @brief      :   Implements EPD interface functions
  *                  Users have to implement all the functions in epdif.cpp
  *  @author     :   Yehui from Waveshare
  *
@@ -25,27 +25,40 @@
  * THE SOFTWARE.
  */
 
-#ifndef EPDIF_H
-#define EPDIF_H
+#include "epdif.h"
+#include <SPI.h>
 
-#include <arduino.h>
-
-// Pin definition
-#define RST_PIN         12
-#define DC_PIN          8
-#define CS_PIN          17
-#define BUSY_PIN        13
-
-class EpdIf {
-public:
-    EpdIf(void);
-    ~EpdIf(void);
-
-    static int  IfInit(void);
-    static void DigitalWrite(int pin, int value); 
-    static int  DigitalRead(int pin);
-    static void DelayMs(unsigned int delaytime);
-    static void SpiTransfer(unsigned char data);
+EpdIf::EpdIf() {
 };
 
-#endif
+EpdIf::~EpdIf() {
+};
+
+void EpdIf::DigitalWrite(int pin, int value) {
+    digitalWrite(pin, value);
+}
+
+int EpdIf::DigitalRead(int pin) {
+    return digitalRead(pin);
+}
+
+void EpdIf::DelayMs(unsigned int delaytime) {
+    delay(delaytime);
+}
+
+void EpdIf::SpiTransfer(unsigned char data) {
+    digitalWrite(CS_PIN, LOW);
+    SPI.transfer(data);
+    digitalWrite(CS_PIN, HIGH);
+}
+
+int EpdIf::IfInit(void) {
+    pinMode(CS_PIN, OUTPUT);
+    pinMode(RST_PIN, OUTPUT);
+    pinMode(DC_PIN, OUTPUT);
+    pinMode(BUSY_PIN, INPUT); 
+    SPI.begin();
+    SPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
+    return 0;
+}
+

@@ -171,7 +171,7 @@ function :	Send lut data and configuration
 parameter:	
     lut :   lut data
 ******************************************************************************/
-void Epd::Lut(unsigned char *lut)
+void Epd::Lut(const unsigned char *lut)
 {
 	unsigned char count;
 	SendCommand(0x32);
