@@ -24,5 +24,7 @@ def print_ticket(ticket_number: int):
      printer.println("################################")
      printer.feed(3)
 
+if __name__ == "__main__":
+     print_ticket(888)
 
 
