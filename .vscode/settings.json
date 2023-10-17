@@ -8,5 +8,36 @@
     ],
     "python.analysis.extraPaths": [
         ".vscode/Pico-W-Stub/stubs"
+    ],
+    "cSpell.words": [
+        "blit",
+        "blitting",
+        "cpos",
+        "devid",
+        "fgcolor",
+        "framebuf",
+        "freesans",
+        "fstr",
+        "fullt",
+        "gbit",
+        "gbyte",
+        "gbytes",
+        "Hinch",
+        "HLSB",
+        "hmap",
+        "HMSB",
+        "lstr",
+        "nspaces",
+        "printchar",
+        "printline",
+        "printstring",
+        "pyboard",
+        "rstr",
+        "setcolor",
+        "stringlen",
+        "textpos",
+        "truelen",
+        "Truelen",
+        "uctypes"
     ]
 }
