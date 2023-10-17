@@ -1,0 +1,26 @@
+from Adafruit_Thermal import *
+
+# Function to print a ticket with a specific number
+def print_ticket(ticket_number):
+     printer = Adafruit_Thermal()
+     printer.println("")
+     printer.inverseOff()
+     printer.justify('C')
+     printer.setSize('S')
+     printer.println("################################")
+     printer.println("")
+     printer.println("Take your ticket")
+     printer.println("")
+     printer.setSize('L')
+     printer.doubleHeightOn()
+     printer.boldOn()
+     printer.print(f"{ticket_number:03}")
+     printer.println("")
+     printer.boldOff()
+     printer.doubleHeightOff()
+     printer.setSize('S')
+     printer.println("")
+     printer.println("Wait till your tickets turn")
+     printer.println("")
+     printer.println("################################")
+     printer.feed(3)
