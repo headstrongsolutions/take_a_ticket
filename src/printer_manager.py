@@ -10,6 +10,8 @@ def print_ticket(ticket_number):
      # Header: "Please Take Ticket"
      printer.setSize('M')  # Medium size
      printer.boldOn()  # Bold text for emphasis
+     printer.println("################################")
+     printer.println("")
      printer.println("Please Take Ticket")
      printer.boldOff()
      # Space
@@ -25,7 +27,11 @@ def print_ticket(ticket_number):
      printer.println("")
      # Footer: "wait for your number"
      printer.setSize('M')  # Medium size
-     printer.println("wait for your number")
+     printer.boldOn()  # Bold text for emphasis
+     printer.println("wait for your tickets turn.")
+     printer.println("")
+     printer.println("################################")
+     printer.boldOff()
      # Finalize
      printer.feed(3)  # Feed 3 lines for spacing
      printer.sleep()  # Save some power

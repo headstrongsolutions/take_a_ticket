@@ -7,7 +7,7 @@ from led_manager import led_alert
 from printer_manager import print_ticket
 from config import *
 
-class ticket_manager:
+class TicketManager:
     # Initialize the ticket manager
     def __init__(self):
         # Load the current ticket and serving numbers from the saved state
@@ -18,7 +18,6 @@ class ticket_manager:
         self.setup_pins()
         # Display the current serving number
         self.display.update(self.serving_number)
-        
     # Initialize the pins for the arcade button and other control buttons.
     def setup_pins(self):
         self.arcade_button = Pin(ARCADE_BUTTON_PIN, Pin.IN, Pin.PULL_DOWN)
@@ -65,7 +64,6 @@ class ticket_manager:
             self.display.update(self.serving_number)
             save_state(self.ticket_number, self.serving_number)
             time.sleep(0.5)
-            
     # Run the ticket manager
     def run(self):
         while True:
