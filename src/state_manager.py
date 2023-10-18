@@ -7,7 +7,7 @@ def load_state():
             data = ujson.load(f)
             return data['ticket_number'], data['serving_number']
     except:
-        return 0, 0  # Default to 0 if no saved state found
+        return 0, 1  # Default to 0 if no saved state found, display value set to 1
 
 # Save the current ticket and serving numbers to a JSON file
 def save_state(ticket_number, serving_number):
