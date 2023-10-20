@@ -4,10 +4,12 @@
     "python.analysis.typeCheckingMode": "basic",
     "micropico.syncFolder": "",
     "python.analysis.typeshedPaths": [
-        ".vscode/Pico-W-Stub"
+        ".vscode/Pico-W-Stub",
+        ".vscode\\Pico-W-Stub"
     ],
     "python.analysis.extraPaths": [
-        ".vscode/Pico-W-Stub/stubs"
+        ".vscode/Pico-W-Stub/stubs",
+        ".vscode\\Pico-W-Stub"
     ],
     "cSpell.words": [
         "blit",
@@ -39,5 +41,8 @@
         "truelen",
         "Truelen",
         "uctypes"
-    ]
+    ],
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportMissingModuleSource": "none"
+    }
 }
