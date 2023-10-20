@@ -1,10 +1,11 @@
 # Import the necessary libraries
 from machine import Pin
 import time
+import _thread
 from state_manager import load_state, save_state
 from display_manager import DisplayManager
 from led_manager import led_alert
-from printer_manager import print_ticket
+from printer_manager import print_ticket, set_printing_flag
 from config import *
 
 class TicketManager:
@@ -28,13 +29,16 @@ class TicketManager:
     # Check if the arcade button is pressed and process the ticket request.
     def handle_arcade_button(self):
         if self.arcade_button.value():
-            led_alert()
+            set_printing_flag(True)
+            print("Starting LED thread")
+            _thread.start_new_thread(led_alert, ())
             self.ticket_number += 1
             if self.ticket_number > 999:
                 self.ticket_number = 1
             print_ticket(self.ticket_number)
             save_state(self.ticket_number, self.serving_number)
             time.sleep(0.5)
+            set_printing_flag(False)
 
     # Check if the button 1 is pressed and increment the serving number.
     def handle_button_1(self):
